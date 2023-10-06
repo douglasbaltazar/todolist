@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmDelete } from './dialog-confirm-delete/dialog-confirm-delete';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { MatTable } from '@angular/material/table';
+import { DialogRegisterNewTask } from './dialog-register-new-task/dialog-register-new-task';
 
 
 
@@ -46,13 +47,14 @@ export class AppComponent {
       exitAnimationDuration,
     });
   }
-  ngOnInit() {
-    // Acesse a variável table dentro do método ngOnInit
-    console.log('table', this.table);
+  openDialogNewTask(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(DialogRegisterNewTask, {
+      width: '350px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
   }
   drop(event: CdkDragDrop<PeriodicElement[]>) {
-    // Return the drag container to disabled.
-    console.log('aqui');
     this.dragDisabled = true;
 
     const previousIndex = this.dataSource.findIndex((d) => d === event.item.data);

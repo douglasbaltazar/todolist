@@ -9,6 +9,10 @@ import {MatTableModule} from '@angular/material/table';
 import { MatDialogModule} from '@angular/material/dialog';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 // import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
@@ -25,7 +29,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTableModule,
     MatDialogModule,
     DragDropModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
