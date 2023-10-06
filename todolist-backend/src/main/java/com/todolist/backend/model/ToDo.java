@@ -21,7 +21,7 @@ public class ToDo {
 	
 	private double value;
 	
-	@JsonFormat(pattern = "MM-dd-YYYY HH:mm")
+	//@JsonFormat(pattern = "MM-dd-YYYY HH:mm")
 	@Column(name = "limit_date")
 	private LocalDateTime limitDate;
 	
@@ -34,6 +34,9 @@ public class ToDo {
 		this.value = value;
 		this.limitDate = limitDate;
 		this.sequence = sequence;
+	}
+	public ToDo() {
+		
 	}
 
 	public String getId() {

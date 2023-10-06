@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import com.todolist.backend.model.ToDo;
 import com.todolist.backend.repository.ToDoRepository;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
 @RequestMapping("/api/v1/todos")
 public class ToDoController {
 
@@ -33,7 +35,7 @@ public class ToDoController {
 	// getToDos
 	@GetMapping()
 	public List<ToDo> getAllToDos() {
-		return this.todoRepository.findAll();
+		return this.todoRepository.findAllByOrderBySequenceAsc();
 	}
 	
 	// getToDoById
@@ -53,6 +55,8 @@ public class ToDoController {
 	    if(checkToDo.isPresent()) {
 	    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um ToDo com o mesmo nome.");
 	    }
+	    int numberOfTasks = todoRepository.findAll().size();
+	    todo.setSequence(numberOfTasks + 1);
 	    ToDo createdToDo = this.todoRepository.save(todo);
 	    
 
