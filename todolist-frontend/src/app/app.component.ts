@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAnimationsExample } from './dialog-confirm-delete/dialog-confirm-delete';
+import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { MatTable } from '@angular/material/table';
 
 
 export interface PeriodicElement {
@@ -27,6 +31,35 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
+  constructor(public dialog: MatDialog) {
+
+  }
+  @ViewChild('table', { static: true }) table?: MatTable<PeriodicElement>;
+  
+  dragDisabled = true;
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(DialogAnimationsExample, {
+      width: '350px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
+  ngOnInit() {
+    // Acesse a variável table dentro do método ngOnInit
+    console.log('table', this.table);
+  }
+  drop(event: CdkDragDrop<PeriodicElement[]>) {
+    // Return the drag container to disabled.
+    console.log('aqui');
+    this.dragDisabled = true;
+
+    const previousIndex = this.dataSource.findIndex((d) => d === event.item.data);
+
+    moveItemInArray(this.dataSource, previousIndex, event.currentIndex);
+    this.table?.renderRows();
+
+  }
   title = 'ToDoList - FrontEnd';
   displayedColumns: string[] = ['id', 'name', 'value', 'limitDate', 'actions'];
   dataSource = ELEMENT_DATA;

@@ -3,7 +3,16 @@
   <span class="example-spacer"></span>
 </mat-toolbar>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table
+  mat-table
+  #table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8"
+  cdkDropList
+  (cdkDropListDropped)="drop($event)"
+  [cdkDropListData]="dataSource"
+  [cdkDropListDisabled]="dragDisabled"
+>
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
@@ -17,6 +26,9 @@
       'value-higher': element.value > 1000,
     }"
     >
+      <mat-icon class="dragCursor" (mousedown)="dragDisabled = false"
+        >reorder</mat-icon
+      >
       {{ element.id }}
     </td>
   </ng-container>
@@ -84,6 +96,7 @@
         mat-icon-button
         [ngClass]="'delete-button'"
         aria-label="Example icon button with a home icon"
+        (click)="openDialog('300ms', '300ms')"
       >
         <mat-icon>delete</mat-icon>
       </button>
@@ -91,5 +104,11 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    cdkDrag
+    [cdkDragData]="row"
+  ></tr>
 </table>
+<button mat-raised-button color="primary">Inserir uma nova Task</button>
