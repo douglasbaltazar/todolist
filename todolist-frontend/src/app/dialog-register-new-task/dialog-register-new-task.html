@@ -1,63 +1,65 @@
-<h1 mat-dialog-title>Cadastrar nova Task</h1>
-<div mat-dialog-content>
-  <form [formGroup]="newTaskForm">
-    <div class="row">
-      <mat-form-field>
-        <mat-label>Nome da Task</mat-label>
-        <input matInput formControlName="name" />
-        <mat-error *ngIf="newTaskForm.get('name')?.hasError('required')"
-          >{{ getErrorMessage('name') }}</mat-error
-        >
-      </mat-form-field>
-    </div>
-    <div class="row">
-      <mat-form-field>
-        <mat-label>Custo</mat-label>
-        <input matInput formControlName="value" type="number" />
-        <mat-error *ngIf="newTaskForm.get('value')?.errors "
-          >{{ getErrorMessage('value') }}</mat-error
-        >
-      </mat-form-field>
-    </div>
-    <div class="row">
-      <mat-form-field>
-        <mat-label>Data Limite</mat-label>
-        <input
-          matInput
-          formControlName="limitDate"
-          required
-          [matDatepicker]="picker"
-          [matDatepickerFilter]="validateDate"
-        />
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker> </mat-datepicker>
-        <mat-error *ngIf="newTaskForm.get('limitDate')?.hasError('required')"
-          >{{ getErrorMessage('limitDate') }}</mat-error
-        >
-      </mat-form-field>
-    </div>
-  </form>
-</div>
-<div mat-dialog-actions>
-  <button
-    mat-raised-button
-    cdkFocusInitial
-    class="clear-button"
-    (click)="newTaskForm.reset()"
-  >
-    Limpar
-  </button>
-  <button
-    mat-raised-button
-    mat-dialog-close
-    cdkFocusInitial
-    color="primary"
-    (click)="saveForm()"
-    [disabled]="newTaskForm.invalid"
-  >
-    Cadastrar
-  </button>
+<div class="center-dialog">
+  <h1 mat-dialog-title>Cadastrar nova Task</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="newTaskForm">
+      <div class="row">
+        <mat-form-field style="min-width: 248px;">
+          <mat-label>Nome da Task</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error *ngIf="newTaskForm.get('name')?.hasError('required')"
+            >{{ getErrorMessage('name') }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field style="min-width: 248px;">
+          <mat-label>Custo</mat-label>
+          <input matInput formControlName="value" type="number" />
+          <mat-error *ngIf="newTaskForm.get('value')?.errors "
+            >{{ getErrorMessage('value') }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Data Limite</mat-label>
+          <input
+            matInput
+            formControlName="limitDate"
+            required
+            [matDatepicker]="picker"
+            [matDatepickerFilter]="validateDate"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker> </mat-datepicker>
+          <mat-error *ngIf="newTaskForm.get('limitDate')?.hasError('required')"
+            >{{ getErrorMessage('limitDate') }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      mat-raised-button
+      cdkFocusInitial
+      class="clear-button"
+      (click)="newTaskForm.reset()"
+    >
+      Limpar
+    </button>
+    <button
+      mat-raised-button
+      mat-dialog-close
+      cdkFocusInitial
+      color="primary"
+      (click)="saveForm()"
+      [disabled]="newTaskForm.invalid"
+    >
+      Cadastrar
+    </button>
+  </div>
 </div>

@@ -18,32 +18,39 @@ export class AppComponent {
 
   }
   ngOnInit() {
-    this.dataService.getAllTasks().subscribe({
-      next: (tasks) => {
-        this.tasks = tasks;
-        console.log(this.tasks);
-      }
-    })
+    this.getAllTasks();
   }
   @ViewChild('table', { static: true }) table?: MatTable<TaskVM>;
   
   dragDisabled = true;
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, obj: TaskVM): void {
     this.dialog.open(DialogConfirmDelete, {
-      width: '350px',
+      width: '600px',
+      height: '160px',
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
-        ...obj
+        task: obj,
+        handleState: this.getAllTasks.bind(this)
       }
     });
   }
   openDialogNewTask(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(DialogRegisterNewTask, {
-      width: '350px',
+      width: '380px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: {
+        handleState: this.getAllTasks.bind(this)
+      }
     });
+  }
+  public getAllTasks(): void {
+    this.dataService.getAllTasks().subscribe({
+      next: (tasks) => {
+        this.tasks = tasks;
+      }
+    })
   }
   drop(event: CdkDragDrop<TaskVM[]>) {
     this.dragDisabled = true;
@@ -53,6 +60,14 @@ export class AppComponent {
     moveItemInArray(this.tasks, previousIndex, event.currentIndex);
     this.table?.renderRows();
 
+  }
+
+  formatarData(dataString: string): string {
+    const data = new Date(dataString);
+    const dia = data.getDate().toString().padStart(2, "0");
+    const mes = (data.getMonth() + 1).toString().padStart(2, "0"); // O mês começa em 0
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
   }
   title = 'ToDoList - FrontEnd';
   displayedColumns: string[] = ['id', 'name', 'value', 'limitDate', 'actions'];

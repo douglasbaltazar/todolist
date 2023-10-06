@@ -49,3 +49,17 @@
 .table {
   width: 100vw;
 }
+
+.no-items-warning {
+  text-align: center;
+  padding: 20px;
+  color: red;
+  font-weight: bold;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}

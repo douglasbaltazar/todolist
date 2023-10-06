@@ -15,7 +15,10 @@ export class DataService {
   }
 
   createNewTask(task: TaskVM): Observable<TaskVM> {
-    console.log('task2', task);
     return this.http.post<TaskVM>(this.baseUrl + "/todos", task);
+  }
+
+  removeTask(task: TaskVM): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + `/todos/${task.id}`);
   }
 }

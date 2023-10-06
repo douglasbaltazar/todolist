@@ -1,117 +1,130 @@
 <mat-toolbar color="primary">
   <span>ToDo List</span>
-  <span class="example-spacer"></span>
 </mat-toolbar>
-
-<table
-  mat-table
-  #table
-  [dataSource]="tasks"
-  class="mat-elevation-z8"
-  cdkDropList
-  (cdkDropListDropped)="drop($event)"
-  [cdkDropListData]="tasks"
-  [cdkDropListDisabled]="dragDisabled"
->
-  <!--- Note that these columns can be defined in any order.
+<div *ngIf="tasks.length === 0" class="no-items-warning">
+  Não há tarefas cadastradas.
+</div>
+<div *ngIf="tasks.length > 0">
+  <table
+    mat-table
+    #table
+    [dataSource]="tasks"
+    class="mat-elevation-z8"
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListData]="tasks"
+    [cdkDropListDisabled]="dragDisabled"
+  >
+    <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
-  <!-- Position Column -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>ID.</th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [ngClass]="{
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID.</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
       'value-higher': element.value > 1000,
     }"
-    >
-      <mat-icon class="dragCursor" (mousedown)="dragDisabled = false"
-      matTooltip="Clique e Arraste para mover"
-        >reorder</mat-icon
       >
-      {{ element.id }}
-    </td>
-  </ng-container>
+        <mat-icon
+          class="dragCursor"
+          (mousedown)="dragDisabled = false"
+          matTooltip="Clique e Arraste para mover"
+          >reorder</mat-icon
+        >
+        {{ element.id }}
+      </td>
+    </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Nome</th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [ngClass]="{
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
       'value-higher': element.value > 1000,
     }"
-    >
-      {{ element.name }}
-    </td>
-  </ng-container>
-
-  <!-- Value Column -->
-  <ng-container matColumnDef="value">
-    <th mat-header-cell *matHeaderCellDef>Valor</th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [ngClass]="{
-      'value-higher': element.value > 1000,
-    }"
-    >
-      {{ element.value }}
-    </td>
-  </ng-container>
-
-  <!-- LimitDate Column -->
-  <ng-container matColumnDef="limitDate">
-    <th mat-header-cell *matHeaderCellDef>Data Limite</th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [ngClass]="{
-      'value-higher': element.value > 1000,
-    }"
-    >
-      {{ element.limitDate }}
-    </td>
-  </ng-container>
-
-  <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Ações</th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [ngClass]="{
-      'value-higher': element.value > 1000,
-    }"
-    >
-      <button
-        mat-icon-button
-        matTooltip="Editar"
-        [ngClass]="'edit-button'"
-        aria-label="Example icon button with a home icon"
       >
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        [ngClass]="'delete-button'"
-        matTooltip="Deletar"
-        aria-label="Example icon button with a home icon"
-        (click)="openDialog('300ms', '300ms', element)"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
+        {{ element.name }}
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: displayedColumns"
-    cdkDrag
-    [cdkDragData]="row"
-  ></tr>
-</table>
-<button mat-raised-button color="primary" (click)="openDialogNewTask('300ms', '300ms')">Inserir uma nova Task</button>
+    <!-- Value Column -->
+    <ng-container matColumnDef="value">
+      <th mat-header-cell *matHeaderCellDef>Valor</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
+      'value-higher': element.value > 1000,
+    }"
+      >
+        {{ element.value }}
+      </td>
+    </ng-container>
+
+    <!-- LimitDate Column -->
+    <ng-container matColumnDef="limitDate">
+      <th mat-header-cell *matHeaderCellDef>Data Limite</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
+      'value-higher': element.value > 1000,
+    }"
+      >
+        {{ formatarData(element.limitDate) }}
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Ações</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
+      'value-higher': element.value > 1000,
+    }"
+      >
+        <button
+          mat-icon-button
+          matTooltip="Editar"
+          [ngClass]="'edit-button'"
+          aria-label="Example icon button with a home icon"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [ngClass]="'delete-button'"
+          matTooltip="Deletar"
+          aria-label="Example icon button with a home icon"
+          (click)="openDialog('300ms', '300ms', element)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      cdkDrag
+      [cdkDragData]="row"
+    ></tr>
+  </table>
+</div>
+<div class="button-container">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="openDialogNewTask('300ms', '300ms')"
+  >
+    Inserir uma nova Task
+  </button>
+</div>

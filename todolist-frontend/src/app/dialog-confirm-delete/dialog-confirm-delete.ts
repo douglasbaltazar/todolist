@@ -1,6 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MatDialogModule, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import { DataService } from '../service/data.service';
+import { TaskVM } from '../view-model/TaskVM';
 
 @Component({
   selector: 'dialog-confirm-delete',
@@ -10,9 +12,13 @@ import {MatButtonModule} from '@angular/material/button';
   imports: [MatButtonModule, MatDialogModule],
 })
 export class DialogConfirmDelete {
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {}
-  obj: Object = this.data;
+  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: { task: TaskVM, handleState: Function }, private dataService: DataService) {}
+  task: TaskVM = this.data.task;
   ngOnInit() {
-    console.log(this.data);
+  }
+  removeTask() {
+    this.dataService.removeTask(this.task).subscribe((res) => {
+      this.data.handleState();
+    });
   }
 }

@@ -1,8 +1,11 @@
-<h1 mat-dialog-title>Deletar essa Task</h1>
-<div mat-dialog-content>
-  Você deseja realmente deletar a tag de {{ obj }}?
+<h1 mat-dialog-title style="text-align: center">Deletar essa Task</h1>
+<div class="mat-dialog-content" style="text-align: center">
+  Você deseja realmente deletar a task de Id <strong>{{ task.id }}</strong> e
+  nome <strong>{{ task.name }}</strong>?
 </div>
-<div mat-dialog-actions>
+<div class="mat-dialog-actions" style="justify-content: center">
   <button mat-button mat-dialog-close class="negative-button">Não</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Sim</button>
+  <button mat-button mat-dialog-close cdkFocusInitial (click)="removeTask()">
+    Sim
+  </button>
 </div>

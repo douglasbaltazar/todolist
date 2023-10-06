@@ -2,3 +2,10 @@
   background-color: red;
   color: white;
 }
+
+.center-dialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule }  from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,8 @@ import { NgIf } from '@angular/common';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DataService } from '../service/data.service';
+import { Inject } from '@angular/core';
+
 
 @Component({
   selector: 'dialog-register-new-task',
@@ -30,7 +32,14 @@ import { DataService } from '../service/data.service';
   ]
 })
 export class DialogRegisterNewTask {
-  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private dateAdapter: DateAdapter<Date>, private dataService: DataService) {
+  constructor(
+    public dialog: MatDialog, 
+    private formBuilder: FormBuilder, 
+    private dateAdapter: DateAdapter<Date>, 
+    private dataService: DataService,
+    @Inject(MAT_DIALOG_DATA) public data: { handleState: Function },
+    private dialogRef: MatDialogRef<DialogRegisterNewTask>
+    ) {
     this.dateAdapter.setLocale('pt-BR')
   }
   
@@ -64,15 +73,13 @@ export class DialogRegisterNewTask {
     return this.validateSelectedDate(date);
   };
   async saveForm() {
-    // console.log('Dados', this.newTaskForm.value);
     const task = {
       name: this.newTaskForm.value.name!,
       limitDate: this.newTaskForm.value.limitDate!,
       value: Number(this.newTaskForm.value.value)!
     }
-    console.log('task', task)
     await this.dataService.createNewTask(task).subscribe((res) => {
-      console.log(`resultado aqui`, res)
+      this.data.handleState();
     });
   }
 }
