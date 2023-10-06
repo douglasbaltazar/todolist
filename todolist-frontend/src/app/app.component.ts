@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogAnimationsExample } from './dialog-confirm-delete/dialog-confirm-delete';
+import { DialogConfirmDelete } from './dialog-confirm-delete/dialog-confirm-delete';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { MatTable } from '@angular/material/table';
+
 
 
 export interface PeriodicElement {
@@ -39,7 +40,7 @@ export class AppComponent {
   
   dragDisabled = true;
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(DialogAnimationsExample, {
+    this.dialog.open(DialogConfirmDelete, {
       width: '350px',
       enterAnimationDuration,
       exitAnimationDuration,

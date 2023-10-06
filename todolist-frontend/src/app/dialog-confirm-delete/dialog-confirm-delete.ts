@@ -4,19 +4,11 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'dialog-confirm-delete',
-  // styleUrls: ['dialog-animations-example.css'],
+  styleUrls: ['dialog-confirm-delete.css'],
   templateUrl: 'dialog-confirm-delete.html',
   standalone: true,
   imports: [MatButtonModule, MatDialogModule],
 })
-export class DialogAnimationsExample {
+export class DialogConfirmDelete {
   constructor(public dialog: MatDialog) {}
-
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(DialogAnimationsExample, {
-      width: '250px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
-  }
 }

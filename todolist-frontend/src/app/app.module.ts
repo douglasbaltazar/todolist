@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import { MatDialogModule} from '@angular/material/dialog';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { MatTooltipModule } from '@angular/material/tooltip';
 // import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
@@ -23,7 +24,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatButtonModule,
     MatTableModule,
     MatDialogModule,
-    DragDropModule
+    DragDropModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

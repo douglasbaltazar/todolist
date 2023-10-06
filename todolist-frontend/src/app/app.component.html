@@ -27,6 +27,7 @@
     }"
     >
       <mat-icon class="dragCursor" (mousedown)="dragDisabled = false"
+      matTooltip="Clique e Arraste para mover"
         >reorder</mat-icon
       >
       {{ element.id }}
@@ -87,6 +88,7 @@
     >
       <button
         mat-icon-button
+        matTooltip="Editar"
         [ngClass]="'edit-button'"
         aria-label="Example icon button with a home icon"
       >
@@ -95,6 +97,7 @@
       <button
         mat-icon-button
         [ngClass]="'delete-button'"
+        matTooltip="Deletar"
         aria-label="Example icon button with a home icon"
         (click)="openDialog('300ms', '300ms')"
       >
