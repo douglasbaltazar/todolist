@@ -12,13 +12,14 @@ import { TaskVM } from '../view-model/TaskVM';
   imports: [MatButtonModule, MatDialogModule],
 })
 export class DialogConfirmDelete {
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: { task: TaskVM, handleState: Function }, private dataService: DataService) {}
+  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: { task: TaskVM, handleState: Function, handleSnackBar: Function }, private dataService: DataService) {}
   task: TaskVM = this.data.task;
-  ngOnInit() {
-  }
   removeTask() {
     this.dataService.removeTask(this.task).subscribe((res) => {
       this.data.handleState();
+      this.data.handleSnackBar("Task removida com sucesso!!");
+    }, (error) => {
+      this.data.handleSnackBar(error.error);
     });
   }
 }

@@ -28,10 +28,6 @@
   /* background: mat-color($mat-light-theme-background, background); */
 }
 
-.cdk-drag-placeholder {
-  /* background: map_get($mat-grey, 300); */
-}
-
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
@@ -63,3 +59,4 @@
   justify-content: center;
   margin-top: 2rem;
 }
+

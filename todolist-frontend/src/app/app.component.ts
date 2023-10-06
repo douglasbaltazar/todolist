@@ -6,6 +6,11 @@ import { MatTable } from '@angular/material/table';
 import { DialogRegisterNewTask } from './dialog-register-new-task/dialog-register-new-task';
 import { DataService } from './service/data.service';
 import { TaskVM } from './view-model/TaskVM';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +19,9 @@ import { TaskVM } from './view-model/TaskVM';
 })
 export class AppComponent {
   tasks: TaskVM[] = [];
-  constructor(public dialog: MatDialog, private dataService: DataService) {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  constructor(public dialog: MatDialog, private dataService: DataService, private _snackBar: MatSnackBar) {
 
   }
   ngOnInit() {
@@ -31,7 +38,8 @@ export class AppComponent {
       exitAnimationDuration,
       data: {
         task: obj,
-        handleState: this.getAllTasks.bind(this)
+        handleState: this.getAllTasks.bind(this),
+        handleSnackBar: this.openSnackBar.bind(this)
       }
     });
   }
@@ -41,10 +49,21 @@ export class AppComponent {
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
-        handleState: this.getAllTasks.bind(this)
+        handleState: this.getAllTasks.bind(this),
+        handleSnackBar: this.openSnackBar.bind(this)
       }
     });
   }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 3000,
+      panelClass: ['warning']
+    });
+  }
+
   public getAllTasks(): void {
     this.dataService.getAllTasks().subscribe({
       next: (tasks) => {
@@ -69,6 +88,8 @@ export class AppComponent {
     const ano = data.getFullYear();
     return `${dia}/${mes}/${ano}`;
   }
+
+  
   title = 'ToDoList - FrontEnd';
   displayedColumns: string[] = ['id', 'name', 'value', 'limitDate', 'actions'];
 }

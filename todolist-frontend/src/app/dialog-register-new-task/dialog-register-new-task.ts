@@ -37,7 +37,7 @@ export class DialogRegisterNewTask {
     private formBuilder: FormBuilder, 
     private dateAdapter: DateAdapter<Date>, 
     private dataService: DataService,
-    @Inject(MAT_DIALOG_DATA) public data: { handleState: Function },
+    @Inject(MAT_DIALOG_DATA) public data: { handleState: Function, handleSnackBar: Function },
     private dialogRef: MatDialogRef<DialogRegisterNewTask>
     ) {
     this.dateAdapter.setLocale('pt-BR')
@@ -79,7 +79,11 @@ export class DialogRegisterNewTask {
       value: Number(this.newTaskForm.value.value)!
     }
     await this.dataService.createNewTask(task).subscribe((res) => {
+      console.log(res);
       this.data.handleState();
+      this.data.handleSnackBar("Task registrada com sucesso!!")
+    }, (error) => {
+      this.data.handleSnackBar("Erro: " + error.error);
     });
   }
 }

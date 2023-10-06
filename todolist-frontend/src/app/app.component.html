@@ -25,7 +25,7 @@
         mat-cell
         *matCellDef="let element"
         [ngClass]="{
-      'value-higher': element.value > 1000,
+      'value-higher': element.value >= 1000,
     }"
       >
         <mat-icon
@@ -45,7 +45,7 @@
         mat-cell
         *matCellDef="let element"
         [ngClass]="{
-      'value-higher': element.value > 1000,
+      'value-higher': element.value >= 1000,
     }"
       >
         {{ element.name }}
@@ -59,7 +59,7 @@
         mat-cell
         *matCellDef="let element"
         [ngClass]="{
-      'value-higher': element.value > 1000,
+      'value-higher': element.value >= 1000,
     }"
       >
         {{ element.value }}
@@ -73,7 +73,7 @@
         mat-cell
         *matCellDef="let element"
         [ngClass]="{
-      'value-higher': element.value > 1000,
+      'value-higher': element.value >= 1000,
     }"
       >
         {{ formatarData(element.limitDate) }}
@@ -87,7 +87,7 @@
         mat-cell
         *matCellDef="let element"
         [ngClass]="{
-      'value-higher': element.value > 1000,
+      'value-higher': element.value >= 1000,
     }"
       >
         <button
