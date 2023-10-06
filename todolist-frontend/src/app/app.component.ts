@@ -5,28 +5,7 @@ import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem, CdkDragH
 import { MatTable } from '@angular/material/table';
 import { DialogRegisterNewTask } from './dialog-register-new-task/dialog-register-new-task';
 import { DataService } from './service/data.service';
-
-
-
-export interface PeriodicElement {
-  name: string;
-  id: number;
-  value: number;
-  limitDate: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, name: 'Hydrogen', value: 1000.0079, limitDate: 'H'},
-  {id: 2, name: 'Helium', value: 4.0026, limitDate: 'He'},
-  {id: 3, name: 'Lithium', value: 6.941, limitDate: 'Li'},
-  {id: 4, name: 'Beryllium', value: 9.0122, limitDate: 'Be'},
-  {id: 5, name: 'Boron', value: 10.811, limitDate: 'B'},
-  {id: 6, name: 'Carbon', value: 12.0107, limitDate: 'C'},
-  {id: 7, name: 'Nitrogen', value: 14.0067, limitDate: 'N'},
-  {id: 8, name: 'Oxygen', value: 15.9994, limitDate: 'O'},
-  {id: 9, name: 'Fluorine', value: 18.9984, limitDate: 'F'},
-  {id: 10, name: 'Neon', value: 20.1797, limitDate: 'Ne'},
-];
+import { TaskVM } from './view-model/TaskVM';
 
 @Component({
   selector: 'app-root',
@@ -34,22 +13,22 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  teste: Object[] = [];
+  tasks: TaskVM[] = [];
   constructor(public dialog: MatDialog, private dataService: DataService) {
 
   }
   ngOnInit() {
-    this.dataService.getAllPosts().subscribe({
-      next: (posts) => {
-        this.teste = posts;
-        console.log(this.teste);
+    this.dataService.getAllTasks().subscribe({
+      next: (tasks) => {
+        this.tasks = tasks;
+        console.log(this.tasks);
       }
     })
   }
-  @ViewChild('table', { static: true }) table?: MatTable<PeriodicElement>;
+  @ViewChild('table', { static: true }) table?: MatTable<TaskVM>;
   
   dragDisabled = true;
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, obj: PeriodicElement): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, obj: TaskVM): void {
     this.dialog.open(DialogConfirmDelete, {
       width: '350px',
       enterAnimationDuration,
@@ -66,16 +45,15 @@ export class AppComponent {
       exitAnimationDuration,
     });
   }
-  drop(event: CdkDragDrop<PeriodicElement[]>) {
+  drop(event: CdkDragDrop<TaskVM[]>) {
     this.dragDisabled = true;
 
-    const previousIndex = this.dataSource.findIndex((d) => d === event.item.data);
+    const previousIndex = this.tasks.findIndex((d) => d === event.item.data);
 
-    moveItemInArray(this.dataSource, previousIndex, event.currentIndex);
+    moveItemInArray(this.tasks, previousIndex, event.currentIndex);
     this.table?.renderRows();
 
   }
   title = 'ToDoList - FrontEnd';
   displayedColumns: string[] = ['id', 'name', 'value', 'limitDate', 'actions'];
-  dataSource = ELEMENT_DATA;
 }

@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
+import { TaskVM } from '../view-model/TaskVM';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  apiUrl = "http://localhost:8081/api/v1/todos"
+  baseUrl = "http://localhost:8081/api/v1"
   constructor(private http: HttpClient) { }
-  getAllPosts(): Observable<Object[]> {
-    return this.http.get<Object[]>(this.apiUrl);
+
+  getAllTasks(): Observable<TaskVM[]> {
+    return this.http.get<TaskVM[]>(this.baseUrl + "/todos");
+  }
+
+  createNewTask(task: TaskVM): Observable<TaskVM> {
+    console.log('task2', task);
+    return this.http.post<TaskVM>(this.baseUrl + "/todos", task);
   }
 }

@@ -6,11 +6,11 @@
 <table
   mat-table
   #table
-  [dataSource]="dataSource"
+  [dataSource]="tasks"
   class="mat-elevation-z8"
   cdkDropList
   (cdkDropListDropped)="drop($event)"
-  [cdkDropListData]="dataSource"
+  [cdkDropListData]="tasks"
   [cdkDropListDisabled]="dragDisabled"
 >
   <!--- Note that these columns can be defined in any order.
