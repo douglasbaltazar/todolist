@@ -4,6 +4,7 @@ import { DialogConfirmDelete } from './dialog-confirm-delete/dialog-confirm-dele
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { MatTable } from '@angular/material/table';
 import { DialogRegisterNewTask } from './dialog-register-new-task/dialog-register-new-task';
+import { DataService } from './service/data.service';
 
 
 
@@ -33,9 +34,17 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
-  constructor(public dialog: MatDialog) {
+  teste: Object[] = [];
+  constructor(public dialog: MatDialog, private dataService: DataService) {
 
+  }
+  ngOnInit() {
+    this.dataService.getAllPosts().subscribe({
+      next: (posts) => {
+        this.teste = posts;
+        console.log(this.teste);
+      }
+    })
   }
   @ViewChild('table', { static: true }) table?: MatTable<PeriodicElement>;
   

@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { provideHttpClient } from '@angular/common/http'
 
 // import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -34,7 +35,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
