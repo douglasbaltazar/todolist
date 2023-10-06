@@ -1,0 +1,8 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.value-higher {
+  background-color: red; /* Cor de fundo para valores altos */
+  color: white;
+}
