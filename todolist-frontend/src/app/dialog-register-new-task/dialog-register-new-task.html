@@ -1,37 +1,44 @@
 <h1 mat-dialog-title>Cadastrar nova Task</h1>
 <div mat-dialog-content>
   <form [formGroup]="newTaskForm">
-    <mat-form-field>
-      <mat-label>Nome da Task</mat-label>
-      <input matInput formControlName="name" />
-      <mat-error *ngIf="newTaskForm.get('name')?.hasError('required')"
-        >{{ getErrorMessage('name') }}</mat-error
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Custo</mat-label>
-      <input matInput formControlName="value" type="number" />
-      <mat-error *ngIf="newTaskForm.get('value')?.errors "
-        >{{ getErrorMessage('value') }}</mat-error
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Data Limite</mat-label>
-      <input
-        matInput
-        formControlName="limitDate"
-        required
-        [matDatepicker]="picker"
-      />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker> </mat-datepicker>
-      <mat-error *ngIf="newTaskForm.get('limitDate')?.hasError('required')"
-        >{{ getErrorMessage('limitDate') }}</mat-error
-      >
-    </mat-form-field>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Nome da Task</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="newTaskForm.get('name')?.hasError('required')"
+          >{{ getErrorMessage('name') }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Custo</mat-label>
+        <input matInput formControlName="value" type="number" />
+        <mat-error *ngIf="newTaskForm.get('value')?.errors "
+          >{{ getErrorMessage('value') }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Data Limite</mat-label>
+        <input
+          matInput
+          formControlName="limitDate"
+          required
+          [matDatepicker]="picker"
+          [matDatepickerFilter]="validateDate"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker> </mat-datepicker>
+        <mat-error *ngIf="newTaskForm.get('limitDate')?.hasError('required')"
+          >{{ getErrorMessage('limitDate') }}</mat-error
+        >
+      </mat-form-field>
+    </div>
   </form>
 </div>
 <div mat-dialog-actions>

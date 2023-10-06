@@ -40,11 +40,14 @@ export class AppComponent {
   @ViewChild('table', { static: true }) table?: MatTable<PeriodicElement>;
   
   dragDisabled = true;
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, obj: PeriodicElement): void {
     this.dialog.open(DialogConfirmDelete, {
       width: '350px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: {
+        ...obj
+      }
     });
   }
   openDialogNewTask(enterAnimationDuration: string, exitAnimationDuration: string): void {

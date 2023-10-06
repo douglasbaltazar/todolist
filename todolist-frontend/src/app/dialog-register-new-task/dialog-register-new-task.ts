@@ -8,8 +8,6 @@ import { NgIf } from '@angular/common';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-
-
 @Component({
   selector: 'dialog-register-new-task',
   styleUrls: ['dialog-register-new-task.css'],
@@ -54,14 +52,16 @@ export class DialogRegisterNewTask {
     // }
     return '';
   }
-
-  numericValidator(control: FormControl) {
-    const value = control.value;
-    if (isNaN(value)) {
-      return { numeric: true };
-    }
-    return null;
+  validateSelectedDate(selectedDate: Date): boolean {
+    const currentDate = this.dateAdapter.today();
+    return selectedDate >= currentDate;
   }
+  validateDate = (date: Date | null): boolean => {
+    if (!date) {
+      return false; // Se não houver data selecionada, não permita a seleção
+    }
+    return this.validateSelectedDate(date);
+  };
   saveForm() {
     console.log('Dados', this.newTaskForm.value);
   }
