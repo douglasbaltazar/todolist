@@ -25,4 +25,8 @@ export class DataService {
   updateTask(task: TaskVM, id: string): Observable<TaskVM> {
     return this.http.put<TaskVM>(this.baseUrl + `/todos/${id}`, task);
   }
+
+  updateSequence(tasks: TaskVM[]): Observable<TaskVM[]> {
+    return this.http.put<TaskVM[]>(this.baseUrl + `/todos/sequence`, tasks);
+  }
 }

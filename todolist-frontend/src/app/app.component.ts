@@ -91,8 +91,21 @@ export class AppComponent {
   }
   drop(event: CdkDragDrop<TaskVM[]>) {
     this.dragDisabled = true;
+    event.item.data.sequence = event.currentIndex + 1;
     const previousIndex = this.tasks.findIndex((d) => d === event.item.data);
     moveItemInArray(this.tasks, previousIndex, event.currentIndex);
+    this.tasks = this.tasks.map((task, index) => {
+      task.sequence = index + 1;
+      return task;
+    });
+    this.dataService.updateSequence(this.tasks).subscribe({
+      next: (res) => {
+        this.openSnackBar("Ordem de prioridade alterada.")
+      },
+      error: () => {
+        this.openSnackBar("Erro")
+      }
+    });
     this.table?.renderRows();
 
   }

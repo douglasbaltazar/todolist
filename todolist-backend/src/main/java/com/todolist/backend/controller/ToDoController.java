@@ -1,5 +1,6 @@
 package com.todolist.backend.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +56,13 @@ public class ToDoController {
 	    if(checkToDo.isPresent()) {
 	    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma Task com o mesmo nome.");
 	    }
-	    int numberOfTasks = todoRepository.findAll().size();
-	    todo.setSequence(numberOfTasks + 1);
+	    try {
+	    	int maxNumber = Integer.parseInt(todoRepository.findMaxSequence());
+	    	todo.setSequence(maxNumber + 1);
+	    } catch(Exception e) {
+	    	todo.setSequence(1);
+	    }
+	    
 	    ToDo createdToDo = this.todoRepository.save(todo);
 	    
 
@@ -67,23 +73,13 @@ public class ToDoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateToDo(@PathVariable(value = "id") String todoId,
 			@Validated @RequestBody ToDo todoUpdate) throws ResourceNotFoundException {
-		/*
-		 * # Editar
-			A função deve editar o registro da Tarefa escolhida.
-			Só é possível alterar o "Nome da Tarefa", o "Custo" e a "Data Limite".
-			É necessário verificar se o novo nome da tarefa já existe na base de dados. Se já existir, a alteração não poderá ser feita.
-			A implementação pode ser feita de uma das duas formas abaixo (escolha uma):
-			A edição é feita diretamente na tela principal (Lista de Tarefas), onde os três campos são habilitados para edição.
-			ou
-			É aberta uma nova tela (popup) para edição dos três campos.
-		 * 
-		 */
-
 		ToDo todo = todoRepository.findById(todoId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoId));
 	    Optional<ToDo> checkToDo = todoRepository.findByName(todoUpdate.getName());
-	    if(checkToDo.isPresent()) {
-	    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma Task com o mesmo nome.");
+	    if(!todo.getName().equals(todoUpdate.getName())) {
+	    	if(checkToDo.isPresent()) {
+		    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma Task com o mesmo nome.");
+		    }
 	    }
 		todo.setLimitDate(todoUpdate.getLimitDate());
 		todo.setName(todoUpdate.getName());
@@ -105,4 +101,34 @@ public class ToDoController {
 	}
 	
 	// Alterar Ordens
+	
+	@PutMapping("/sequence")
+	public ResponseEntity<?> updateSequence(@RequestBody List<ToDo> updatedTasks) {
+	    List<ToDo> updatedTasksList = new ArrayList<>();
+	    
+	    for (ToDo todoUpdate : updatedTasks) {
+	        try {
+	            ToDo todo = todoRepository.findById(todoUpdate.getId())
+	                .orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoUpdate.getId()));
+	            
+	            Optional<ToDo> checkToDo = todoRepository.findByName(todoUpdate.getName());
+
+	            if (!todo.getName().equals(todoUpdate.getName())) {
+	                if (checkToDo.isPresent()) {
+	                    return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma Task com o mesmo nome.");
+	                }
+	            }
+	            todo.setSequence(todoUpdate.getSequence());
+	            todo.setLimitDate(todoUpdate.getLimitDate());
+	            todo.setName(todoUpdate.getName());
+	            todo.setValue(todoUpdate.getValue());
+	            
+	            updatedTasksList.add(todoRepository.save(todo));
+	        } catch (ResourceNotFoundException e) {
+	            // Lide com a exceção aqui, se necessário.
+	        }
+	    }
+	    
+	    return ResponseEntity.ok(updatedTasksList);
+	}
 }

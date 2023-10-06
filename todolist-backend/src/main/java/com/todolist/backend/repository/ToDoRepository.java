@@ -4,10 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.todolist.backend.model.ToDo;
 
 public interface ToDoRepository extends JpaRepository<ToDo, String> {
+	
 	Optional<ToDo> findByName(String name);
+	
 	List<ToDo> findAllByOrderBySequenceAsc();
+	
+	@Query("SELECT MAX(t.sequence) FROM ToDo t")
+    String findMaxSequence();
 }
