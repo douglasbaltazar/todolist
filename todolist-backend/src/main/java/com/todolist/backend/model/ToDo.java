@@ -21,7 +21,6 @@ public class ToDo {
 	
 	private double value;
 	
-	//@JsonFormat(pattern = "MM-dd-YYYY HH:mm")
 	@Column(name = "limit_date")
 	private LocalDateTime limitDate;
 	
