@@ -11,7 +11,7 @@
     <mat-form-field>
       <mat-label>Custo</mat-label>
       <input matInput formControlName="value" type="number" />
-      <mat-error *ngIf="newTaskForm.get('value')?.hasError('min')"
+      <mat-error *ngIf="newTaskForm.get('value')?.errors "
         >{{ getErrorMessage('value') }}</mat-error
       >
     </mat-form-field>
@@ -27,9 +27,7 @@
         matIconSuffix
         [for]="picker"
       ></mat-datepicker-toggle>
-      <mat-datepicker #picker>
-        <mat-datepicker-actions></mat-datepicker-actions
-      ></mat-datepicker>
+      <mat-datepicker #picker> </mat-datepicker>
       <mat-error *ngIf="newTaskForm.get('limitDate')?.hasError('required')"
         >{{ getErrorMessage('limitDate') }}</mat-error
       >

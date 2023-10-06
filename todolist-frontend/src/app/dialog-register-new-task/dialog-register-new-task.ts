@@ -37,7 +37,7 @@ export class DialogRegisterNewTask {
   
   newTaskForm = this.formBuilder.group({
     name: ['', Validators.required],
-    value: ['', Validators.required, Validators.min(0)],
+    value: ['', [Validators.required, Validators.min(0)]],
     limitDate: ['', Validators.required]
   });
 
@@ -47,7 +47,7 @@ export class DialogRegisterNewTask {
       return `O campo ${controlName} é obrigatório`;
     }
     if (control.hasError('min')) {
-      return `O valor no campo ${controlName} não pode ser negativo`;
+      return `O menor valor possivel é 0.`;
     }
     // if (control.hasError('numeric')) {
     //   return `O valor no campo ${controlName} deve ser numérico`;
