@@ -3,6 +3,14 @@
 }
 
 .value-higher {
-  background-color: red; /* Cor de fundo para valores altos */
-  color: white;
+  background-color: wheat; /* Cor de fundo para valores altos */
+  color: black;
+}
+
+.edit-button {
+  color: darkblue; /* Defina a cor do texto como branco ou outra cor de texto que você preferir */
+}
+
+.delete-button {
+  color: crimson; /* Defina a cor do texto como branco ou outra cor de texto que você preferir */
 }

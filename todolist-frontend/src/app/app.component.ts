@@ -9,7 +9,7 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, name: 'Hydrogen', value: 1.0079, limitDate: 'H'},
+  {id: 1, name: 'Hydrogen', value: 1000.0079, limitDate: 'H'},
   {id: 2, name: 'Helium', value: 4.0026, limitDate: 'He'},
   {id: 3, name: 'Lithium', value: 6.941, limitDate: 'Li'},
   {id: 4, name: 'Beryllium', value: 9.0122, limitDate: 'Be'},
@@ -28,6 +28,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class AppComponent {
   title = 'ToDoList - FrontEnd';
-  displayedColumns: string[] = ['id', 'name', 'value', 'limitDate'];
+  displayedColumns: string[] = ['id', 'name', 'value', 'limitDate', 'actions'];
   dataSource = ELEMENT_DATA;
 }
