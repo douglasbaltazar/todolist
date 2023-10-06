@@ -43,7 +43,7 @@ public class ToDoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<ToDo> getToDoById(@PathVariable(value = "id") String todoId) throws ResourceNotFoundException  {
 		ToDo todo = todoRepository.findById(todoId)
-				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um ToDo com o Id: " + todoId));
+				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoId));
 		return ResponseEntity.ok().body(todo);
 
 	}
@@ -53,7 +53,7 @@ public class ToDoController {
 	public ResponseEntity<?> createToDo(@RequestBody ToDo todo) {
 	    Optional<ToDo> checkToDo = todoRepository.findByName(todo.getName());
 	    if(checkToDo.isPresent()) {
-	    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um ToDo com o mesmo nome.");
+	    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma Task com o mesmo nome.");
 	    }
 	    int numberOfTasks = todoRepository.findAll().size();
 	    todo.setSequence(numberOfTasks + 1);
@@ -80,10 +80,10 @@ public class ToDoController {
 		 */
 
 		ToDo todo = todoRepository.findById(todoId)
-				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um ToDo com o Id: " + todoId));
+				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoId));
 	    Optional<ToDo> checkToDo = todoRepository.findByName(todoUpdate.getName());
 	    if(checkToDo.isPresent()) {
-	    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um ToDo com o mesmo nome.");
+	    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma Task com o mesmo nome.");
 	    }
 		todo.setLimitDate(todoUpdate.getLimitDate());
 		todo.setName(todoUpdate.getName());
@@ -96,7 +96,7 @@ public class ToDoController {
 	@DeleteMapping("/{id}")
 	public Map<String, Boolean> deleteToDo(@PathVariable(value = "id") String todoId) throws ResourceNotFoundException {
 		ToDo todo = todoRepository.findById(todoId)
-				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um ToDo com o Id: " + todoId));
+				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoId));
 		this.todoRepository.delete(todo);
 		
 		Map<String, Boolean> response = new HashMap<>();
