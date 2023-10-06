@@ -7,8 +7,9 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators 
 import { NgIf } from '@angular/common';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DataService } from '../service/data.service';
+import { DataService } from '../../service/data.service';
 import { Inject } from '@angular/core';
+import { TaskVM } from 'src/app/view-model/TaskVM';
 
 
 @Component({
@@ -37,10 +38,19 @@ export class DialogRegisterNewTask {
     private formBuilder: FormBuilder, 
     private dateAdapter: DateAdapter<Date>, 
     private dataService: DataService,
-    @Inject(MAT_DIALOG_DATA) public data: { handleState: Function, handleSnackBar: Function },
+    @Inject(MAT_DIALOG_DATA) public data: { handleState: Function, handleSnackBar: Function, task?: TaskVM },
     private dialogRef: MatDialogRef<DialogRegisterNewTask>
     ) {
     this.dateAdapter.setLocale('pt-BR')
+  }
+  ngOnInit() {
+    if (this.data.task) {
+      this.newTaskForm.patchValue({
+        limitDate: this.data.task.limitDate,
+        name: this.data.task.name,
+        value: this.data.task.value.toString()
+      });
+    }
   }
   
   newTaskForm = this.formBuilder.group({
@@ -78,12 +88,29 @@ export class DialogRegisterNewTask {
       limitDate: this.newTaskForm.value.limitDate!,
       value: Number(this.newTaskForm.value.value)!
     }
-    await this.dataService.createNewTask(task).subscribe((res) => {
-      console.log(res);
-      this.data.handleState();
-      this.data.handleSnackBar("Task registrada com sucesso!!")
-    }, (error) => {
-      this.data.handleSnackBar("Erro: " + error.error);
-    });
+    if (this.data.task) {
+      console.log(this.data.task);
+      await this.dataService.updateTask(task, this.data.task.id!).subscribe({
+        next: () => {
+          this.data.handleState();
+          this.data.handleSnackBar("Task alterada com sucesso!!")
+        }, error: (error) => {
+          let erro = error.error.message == undefined ? error.error : error.error.message;
+          this.data.handleSnackBar("Erro: " + erro);
+        }
+      })
+    } else {
+      await this.dataService.createNewTask(task).subscribe({
+        next: () => {
+            this.data.handleState();
+            this.data.handleSnackBar("Task registrada com sucesso!!")
+        },
+        error: (error) => {
+          this.data.handleSnackBar("Erro: " + error.error);
+        }
+      });
+    }
+    
+    
   }
 }

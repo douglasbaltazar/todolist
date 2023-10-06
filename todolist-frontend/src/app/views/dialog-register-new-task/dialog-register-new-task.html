@@ -1,9 +1,15 @@
 <div class="center-dialog">
-  <h1 mat-dialog-title>Cadastrar nova Task</h1>
+  <h1 mat-dialog-title *ngIf="data.task; else cadastrarNovaTask">
+    Editar Task {{ data.task.name}}
+  </h1>
+
+  <ng-template #cadastrarNovaTask>
+    <h1 mat-dialog-title>Cadastrar nova Task</h1>
+  </ng-template>
   <div mat-dialog-content>
     <form [formGroup]="newTaskForm">
       <div class="row">
-        <mat-form-field style="min-width: 248px;">
+        <mat-form-field style="min-width: 248px">
           <mat-label>Nome da Task</mat-label>
           <input matInput formControlName="name" />
           <mat-error *ngIf="newTaskForm.get('name')?.hasError('required')"
@@ -12,7 +18,7 @@
         </mat-form-field>
       </div>
       <div class="row">
-        <mat-form-field style="min-width: 248px;">
+        <mat-form-field style="min-width: 248px">
           <mat-label>Custo</mat-label>
           <input matInput formControlName="value" type="number" />
           <mat-error *ngIf="newTaskForm.get('value')?.errors "
@@ -58,8 +64,22 @@
       color="primary"
       (click)="saveForm()"
       [disabled]="newTaskForm.invalid"
+      *ngIf="data.task; else buttonCadastrar"
     >
-      Cadastrar
+      Editar
     </button>
+
+    <ng-template #buttonCadastrar>
+      <button
+        mat-raised-button
+        mat-dialog-close
+        cdkFocusInitial
+        color="primary"
+        (click)="saveForm()"
+        [disabled]="newTaskForm.invalid"
+      >
+        Cadastrar
+      </button>
+    </ng-template>
   </div>
 </div>

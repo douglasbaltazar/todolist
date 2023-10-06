@@ -21,4 +21,8 @@ export class DataService {
   removeTask(task: TaskVM): Observable<any> {
     return this.http.delete<any>(this.baseUrl + `/todos/${task.id}`);
   }
+
+  updateTask(task: TaskVM, id: string): Observable<TaskVM> {
+    return this.http.put<TaskVM>(this.baseUrl + `/todos/${id}`, task);
+  }
 }
