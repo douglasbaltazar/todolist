@@ -22,28 +22,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.todolist.backend.exception.ResourceNotFoundException;
-import com.todolist.backend.model.ToDo;
-import com.todolist.backend.repository.ToDoRepository;
+import com.todolist.backend.model.Task;
+import com.todolist.backend.repository.TaskRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
-@RequestMapping("/api/v1/todos")
-public class ToDoController {
+@RequestMapping("/api/v1/tasks")
+public class TaskController {
 
 	@Autowired
-	private ToDoRepository todoRepository;
+	private TaskRepository taskRepository;
 	
 	// getToDos
 	@GetMapping()
-	public List<ToDo> getAllToDos() {
-		return this.todoRepository.findAllByOrderBySequenceAsc();
+	public List<Task> getAllTasks() {
+		return this.taskRepository.findAllByOrderBySequenceAsc();
 	}
 	
 	// getToDoById
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ToDo> getToDoById(@PathVariable(value = "id") String todoId) throws ResourceNotFoundException  {
-		ToDo todo = todoRepository.findById(todoId)
+	public ResponseEntity<Task> getTaskById(@PathVariable(value = "id") String todoId) throws ResourceNotFoundException  {
+		Task todo = taskRepository.findById(todoId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoId));
 		return ResponseEntity.ok().body(todo);
 
@@ -51,19 +51,19 @@ public class ToDoController {
 	
 	// Save ToDo
 	@PostMapping()
-	public ResponseEntity<?> createToDo(@RequestBody ToDo todo) {
-	    Optional<ToDo> checkToDo = todoRepository.findByName(todo.getName());
+	public ResponseEntity<?> createTask(@RequestBody Task todo) {
+	    Optional<Task> checkToDo = taskRepository.findByName(todo.getName());
 	    if(checkToDo.isPresent()) {
 	    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma Task com o mesmo nome.");
 	    }
 	    try {
-	    	int maxNumber = Integer.parseInt(todoRepository.findMaxSequence());
+	    	int maxNumber = Integer.parseInt(taskRepository.findMaxSequence());
 	    	todo.setSequence(maxNumber + 1);
 	    } catch(Exception e) {
 	    	todo.setSequence(1);
 	    }
 	    
-	    ToDo createdToDo = this.todoRepository.save(todo);
+	    Task createdToDo = this.taskRepository.save(todo);
 	    
 
 	    return ResponseEntity.status(HttpStatus.CREATED).body(createdToDo);
@@ -71,11 +71,11 @@ public class ToDoController {
 	
 	// Update ToDo
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateToDo(@PathVariable(value = "id") String todoId,
-			@Validated @RequestBody ToDo todoUpdate) throws ResourceNotFoundException {
-		ToDo todo = todoRepository.findById(todoId)
+	public ResponseEntity<?> updateTask(@PathVariable(value = "id") String todoId,
+			@Validated @RequestBody Task todoUpdate) throws ResourceNotFoundException {
+		Task todo = taskRepository.findById(todoId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoId));
-	    Optional<ToDo> checkToDo = todoRepository.findByName(todoUpdate.getName());
+	    Optional<Task> checkToDo = taskRepository.findByName(todoUpdate.getName());
 	    if(!todo.getName().equals(todoUpdate.getName())) {
 	    	if(checkToDo.isPresent()) {
 		    	return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma Task com o mesmo nome.");
@@ -85,15 +85,15 @@ public class ToDoController {
 		todo.setName(todoUpdate.getName());
 		todo.setValue(todoUpdate.getValue());
 		
-		return ResponseEntity.ok(this.todoRepository.save(todo));
+		return ResponseEntity.ok(this.taskRepository.save(todo));
 	}
 	
 	// Remove ToDo
 	@DeleteMapping("/{id}")
-	public Map<String, Boolean> deleteToDo(@PathVariable(value = "id") String todoId) throws ResourceNotFoundException {
-		ToDo todo = todoRepository.findById(todoId)
+	public Map<String, Boolean> deleteTask(@PathVariable(value = "id") String todoId) throws ResourceNotFoundException {
+		Task todo = taskRepository.findById(todoId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoId));
-		this.todoRepository.delete(todo);
+		this.taskRepository.delete(todo);
 		
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
@@ -103,15 +103,15 @@ public class ToDoController {
 	// Alterar Ordens
 	
 	@PutMapping("/sequence")
-	public ResponseEntity<?> updateSequence(@RequestBody List<ToDo> updatedTasks) {
-	    List<ToDo> updatedTasksList = new ArrayList<>();
+	public ResponseEntity<?> updateSequence(@RequestBody List<Task> updatedTasks) {
+	    List<Task> updatedTasksList = new ArrayList<>();
 	    
-	    for (ToDo todoUpdate : updatedTasks) {
+	    for (Task todoUpdate : updatedTasks) {
 	        try {
-	            ToDo todo = todoRepository.findById(todoUpdate.getId())
+	            Task todo = taskRepository.findById(todoUpdate.getId())
 	                .orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado uma Task com o Id: " + todoUpdate.getId()));
 	            
-	            Optional<ToDo> checkToDo = todoRepository.findByName(todoUpdate.getName());
+	            Optional<Task> checkToDo = taskRepository.findByName(todoUpdate.getName());
 
 	            if (!todo.getName().equals(todoUpdate.getName())) {
 	                if (checkToDo.isPresent()) {
@@ -123,9 +123,9 @@ public class ToDoController {
 	            todo.setName(todoUpdate.getName());
 	            todo.setValue(todoUpdate.getValue());
 	            
-	            updatedTasksList.add(todoRepository.save(todo));
+	            updatedTasksList.add(taskRepository.save(todo));
 	        } catch (ResourceNotFoundException e) {
-	            // Lide com a exceção aqui, se necessário.
+	            
 	        }
 	    }
 	    

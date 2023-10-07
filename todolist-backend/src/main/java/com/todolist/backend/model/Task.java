@@ -11,8 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "todos")
-public class ToDo {
+@Table(name = "tarefas")
+public class Task {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
@@ -27,14 +27,14 @@ public class ToDo {
 	@Column(name = "sequence")
 	private int sequence;
 
-	public ToDo(String name, double value, LocalDateTime limitDate, int sequence) {
+	public Task(String name, double value, LocalDateTime limitDate, int sequence) {
 		super();
 		this.name = name;
 		this.value = value;
 		this.limitDate = limitDate;
 		this.sequence = sequence;
 	}
-	public ToDo() {
+	public Task() {
 		
 	}
 

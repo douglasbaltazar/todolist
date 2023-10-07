@@ -7,26 +7,26 @@ import { TaskVM } from '../view-model/TaskVM';
   providedIn: 'root'
 })
 export class DataService {
-  baseUrl = "http://localhost:8081/api/v1"
+  baseUrl = "http://localhost:8081/api/v1/tasks"
   constructor(private http: HttpClient) { }
 
   getAllTasks(): Observable<TaskVM[]> {
-    return this.http.get<TaskVM[]>(this.baseUrl + "/todos");
+    return this.http.get<TaskVM[]>(this.baseUrl);
   }
 
   createNewTask(task: TaskVM): Observable<TaskVM> {
-    return this.http.post<TaskVM>(this.baseUrl + "/todos", task);
+    return this.http.post<TaskVM>(this.baseUrl, task);
   }
 
   removeTask(task: TaskVM): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + `/todos/${task.id}`);
+    return this.http.delete<any>(this.baseUrl + `/${task.id}`);
   }
 
   updateTask(task: TaskVM, id: string): Observable<TaskVM> {
-    return this.http.put<TaskVM>(this.baseUrl + `/todos/${id}`, task);
+    return this.http.put<TaskVM>(this.baseUrl + `/${id}`, task);
   }
 
   updateSequence(tasks: TaskVM[]): Observable<TaskVM[]> {
-    return this.http.put<TaskVM[]>(this.baseUrl + `/todos/sequence`, tasks);
+    return this.http.put<TaskVM[]>(this.baseUrl + `/sequence`, tasks);
   }
 }
