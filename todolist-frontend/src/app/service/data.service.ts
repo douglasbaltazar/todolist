@@ -7,7 +7,7 @@ import { TaskVM } from '../view-model/TaskVM';
   providedIn: 'root'
 })
 export class DataService {
-  baseUrl = "http://localhost:8081/api/v1/tasks"
+  baseUrl = "http://ec2-18-229-142-45.sa-east-1.compute.amazonaws.com:8081/api/v1/tasks"
   constructor(private http: HttpClient) { }
 
   getAllTasks(): Observable<TaskVM[]> {
