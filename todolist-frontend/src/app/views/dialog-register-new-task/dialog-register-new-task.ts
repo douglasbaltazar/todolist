@@ -54,8 +54,8 @@ export class DialogRegisterNewTask {
   }
   
   newTaskForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    value: ['', [Validators.required, Validators.min(0)]],
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    value: ['', [Validators.required, Validators.min(0), Validators.max(1000000)]],
     limitDate: ['', Validators.required]
   });
 
@@ -66,6 +66,9 @@ export class DialogRegisterNewTask {
     }
     if (control.hasError('min')) {
       return `O menor valor possivel é 0.`;
+    }
+    if (control.hasError('max')) {
+      return `O maior valor possivel é 1000000.`;
     }
     // if (control.hasError('numeric')) {
     //   return `O valor no campo ${controlName} deve ser numérico`;
