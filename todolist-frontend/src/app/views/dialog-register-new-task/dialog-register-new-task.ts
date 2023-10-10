@@ -54,9 +54,9 @@ export class DialogRegisterNewTask {
   }
   
   newTaskForm = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    value: ['', [Validators.required, Validators.min(0), Validators.max(1000000)]],
-    limitDate: ['', Validators.required]
+    name: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^\S*$/)]],
+    value: ['', [Validators.required, Validators.min(0), Validators.max(1000000), Validators.pattern(/^\S*$/)]],
+    limitDate: ['', [Validators.required, Validators.pattern(/^\S*$/)]]
   });
 
   getErrorMessage(controlName: string): string {
@@ -69,6 +69,9 @@ export class DialogRegisterNewTask {
     }
     if (control.hasError('max')) {
       return `O maior valor possivel é 1000000.`;
+    }
+    if (control.hasError('pattern')) {
+      return `O campo ${controlName} é obrigatório`
     }
     // if (control.hasError('numeric')) {
     //   return `O valor no campo ${controlName} deve ser numérico`;
